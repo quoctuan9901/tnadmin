@@ -24,7 +24,8 @@
         },
         "files" : [
         	"app/Functions/frontend.php",
-            "app/Functions/backend.php"
+            "app/Functions/backend.php",
+            "database/local/data.php"
         ]
     },
     "autoload-dev": {
