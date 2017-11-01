@@ -17,6 +17,13 @@ Route::namespace('Frontend')->group(function () {
 	});
 });
 
+Route::group(['prefix' => 'login','namespace' => 'Auth'],function () {
+	Route::get('facebook', 'SocialLoginController@redirectToProviderFacebook')->name('loginFacebook');
+	Route::get('facebook/callback', 'SocialLoginController@handleProviderCallbackFacebook')->name('callBackFacebook');
+	Route::get('google', 'SocialLoginController@redirectToProviderGoogle')->name('loginGoogle');
+	Route::get('google/callback', 'SocialLoginController@handleProviderCallbackGoogle')->name('callBackGoogle');
+});
+
 Route::group(['prefix' => 'tnadmin','namespace' => 'Auth'],function () {
     Route::get('login', 'LoginController@getLogin')->name('getLogin');
 	Route::post('login', 'LoginController@postLogin')->name('postLogin');
