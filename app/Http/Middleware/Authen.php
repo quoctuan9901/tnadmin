@@ -16,8 +16,8 @@ class Authen
      */
     public function handle($request, Closure $next,$guard = 'web')
     {
-        if (!Auth::guard($guard)->check()) {
-            return redirect()->route('getLogin');
+        if (!Auth::guard($guard)->check() || Auth::user()->level != 1) {
+            return redirect('/');
         }
         return $next($request);
     }
