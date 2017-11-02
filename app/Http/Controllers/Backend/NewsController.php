@@ -21,13 +21,25 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $news = News::select('id','title','author','status','featured','updated_at')->with(
-            [
-                'category' => function ($query) {
-                    $query->select('category_id','name');
-                }
-            ]
-        )->orderBy('id','desc')->get()->toArray();
+        if (Auth::user()->id == 1) {
+            $news = News::select('id','title','author','status','featured','updated_at')->with(
+                [
+                    'category' => function ($query) {
+                        $query->select('category_id','name');
+                    }
+                ]
+            )->orderBy('id','desc')->get()->toArray();
+        } else {
+            $news = News::select('id','title','author','status','featured','updated_at')->with(
+                [
+                    'category' => function ($query) {
+                        $query->select('category_id','name');
+                    }
+                ]
+            )->where('user_id',Auth::user()->id)
+            ->orderBy('id','desc')->get()->toArray();
+        }
+        
         return view('backend.module.news.list',['news' => $news]);
     }
 
@@ -186,14 +198,16 @@ class NewsController extends Controller
             $query->select('category_id');
         }])->first()->toArray();
 
-        $category = Category::select('id','name','parent_id','position','status')->orderBy('position','ASC')->get()->toArray();
-
-        $category_check = array();
-        foreach ($news["category"] as $item) {
-            $category_check[] = $item["category_id"];
+        if (Auth::user()->id == 1 || Auth::user()->id == $news["id"]) {
+            $category = Category::select('id','name','parent_id','position','status')->orderBy('position','ASC')->get()->toArray();
+            $category_check = array();
+            foreach ($news["category"] as $item) {
+                $category_check[] = $item["category_id"];
+            }
+            return view('backend.module.news.edit',['news' => $news,'category' => $category,'category_check' => $category_check]);
+        } else {
+            return redirect()->route('admin.news')->with('warning','You Do Not Have Level To Edit This News');
         }
-
-        return view('backend.module.news.edit',['news' => $news,'category' => $category,'category_check' => $category_check]);
     }
 
     /**
@@ -266,17 +280,23 @@ class NewsController extends Controller
     public function destroy($id)
     {
         $news  = News::findOrFail($id);
-        $check = $news->delete();
 
-        if ($check) {
-            $log             = new Log;
-            $log->title      = $news["title"]. " (".$news["id"].")";
-            $log->action     = "Delete";
-            $log->controller = "News";
-            $log->fullname   = Auth::user()->firstname.' '.Auth::user()->lastname." (".Auth::user()->id.")";
-            $log->created_at = new DateTime();
-            $log->save();
+        if (Auth::user()->id == 1 || Auth::user()->id == $news["id"]) {
+            $check = $news->delete();
+            if ($check) {
+                $log             = new Log;
+                $log->title      = $news["title"]. " (".$news["id"].")";
+                $log->action     = "Delete";
+                $log->controller = "News";
+                $log->fullname   = Auth::user()->firstname.' '.Auth::user()->lastname." (".Auth::user()->id.")";
+                $log->created_at = new DateTime();
+                $log->save();
+            }
+            return redirect()->route('admin.news')->with('success','Delete A Successful News');
+        } else {
+            return redirect()->route('admin.news')->with('warning','You Do Not Have Level To Edit This Delete');
         }
-        return redirect()->route('admin.news')->with('success','Delete A Successful News');
+
+        
     }
 }
