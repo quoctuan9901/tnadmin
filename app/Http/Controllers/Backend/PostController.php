@@ -19,13 +19,24 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::select('id','title','status','updated_at','user_id')->with(
-            [
-                'user' => function ($query) {
-                    $query->select('id','lastname','firstname');
-                }   
-            ]
-        )->orderBy('id','desc')->get()->toArray();
+        if (Auth::user()->id == 1) {
+            $posts = Post::select('id','title','status','updated_at','user_id')->with(
+                [
+                    'user' => function ($query) {
+                        $query->select('id','lastname','firstname');
+                    }   
+                ]
+            )->orderBy('id','desc')->get()->toArray();
+        } else {
+            $posts = Post::select('id','title','status','updated_at','user_id')->with(
+                [
+                    'user' => function ($query) {
+                        $query->select('id','lastname','firstname');
+                    }   
+                ]
+            )->where('user_id',Auth::user()->id)
+            ->orderBy('id','desc')->get()->toArray();
+        }
         return view('backend.module.post.list',['posts' => $posts]);
     }
 
@@ -164,7 +175,11 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::findOrFail($id);
-        return view('backend.module.post.edit',['post' => $post]);
+        if (Auth::user()->id == 1 || Auth::user()->id == $post["user_id"]) {
+            return view('backend.module.post.edit',['post' => $post]);
+        } else {
+             return redirect()->route('admin.post')->with('warning','You Do Not Have Level To Edit This Post');
+        }
     }
 
     /**
@@ -221,18 +236,20 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post  = Post::findOrFail($id);
-        $check = $post->delete();
-
-        if ($check) {
-            $log             = new Log;
-            $log->title      = $post["title"]. " (".$post["id"].")";
-            $log->action     = "Delete";
-            $log->controller = "Post";
-            $log->fullname   = Auth::user()->firstname.' '.Auth::user()->lastname." (".Auth::user()->id.")";
-            $log->created_at = new DateTime();
-            $log->save();
+        if (Auth::user()->id == 1 || Auth::user()->id == $post["user_id"]) {
+            $check = $post->delete();
+            if ($check) {
+                $log             = new Log;
+                $log->title      = $post["title"]. " (".$post["id"].")";
+                $log->action     = "Delete";
+                $log->controller = "Post";
+                $log->fullname   = Auth::user()->firstname.' '.Auth::user()->lastname." (".Auth::user()->id.")";
+                $log->created_at = new DateTime();
+                $log->save();
+            }
+            return redirect()->route('admin.post')->with('success','Delete A Successful Post');
+        } else {
+            return redirect()->route('admin.post')->with('warning','You Do Not Have Level To Delete This Post');
         }
-
-        return redirect()->route('admin.post')->with('success','Delete A Successful Post');
     }
 }

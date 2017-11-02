@@ -25,16 +25,30 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $product = Product::select('id','title','sale_price','status','featured','updated_at','user_id')->with(
-            [
-                'category' => function ($query) {
-                    $query->select('category_id','name');
-                },
-                'user' => function ($query) {
-                    $query->select('id','firstname','lastname');
-                }
-            ]
-        )->orderBy('id','desc')->get()->toArray();
+        if (Auth::user()->id == 1) {
+            $product = Product::select('id','title','sale_price','status','featured','updated_at','user_id')->with(
+                [
+                    'category' => function ($query) {
+                        $query->select('category_id','name');
+                    },
+                    'user' => function ($query) {
+                        $query->select('id','firstname','lastname');
+                    }
+                ]
+            )->orderBy('id','desc')->get()->toArray();
+        } else {
+            $product = Product::select('id','title','sale_price','status','featured','updated_at','user_id')->with(
+                [
+                    'category' => function ($query) {
+                        $query->select('category_id','name');
+                    },
+                    'user' => function ($query) {
+                        $query->select('id','firstname','lastname');
+                    }
+                ]
+            )->where('user_id',Auth::user()->id)
+            ->orderBy('id','desc')->get()->toArray();
+        }
         return view('backend.module.product.list',['product' => $product]);
     }
 
@@ -292,11 +306,6 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-		$category     = Category::select('id','name','parent_id','position','status')->orderBy('position')->get()->toArray();
-		$manufacturer = Manufacturer::select('id','name')->get()->toArray();
-		$images       = Product::find($id)->product_image()->get()->toArray();
-		$attribute    = Attribute::select('id','name','parent_id')->get()->toArray();
-
 		$product = Product::where('id',$id)->with(
     		[
     			'category' => function ($query) {
@@ -308,12 +317,20 @@ class ProductController extends Controller
         	]
         )->orderBy('id','desc')->first()->toArray();
 
-		$category_check = array();
-        foreach ($product["category"] as $item) {
-            $category_check[] = $item["category_id"];
-        }
+        if (Auth::user()->id == 1 || Auth::user()->id == $product["user_id"]) {
+            $category     = Category::select('id','name','parent_id','position','status')->orderBy('position')->get()->toArray();
+            $manufacturer = Manufacturer::select('id','name')->get()->toArray();
+            $images       = Product::find($id)->product_image()->get()->toArray();
+            $attribute    = Attribute::select('id','name','parent_id')->get()->toArray();
 
-        return view('backend.module.product.edit',['category' => $category,'manufacturer' => $manufacturer,'images' => $images,'product' => $product,'category_check' => $category_check,'attribute' => $attribute]);
+    		$category_check = array();
+            foreach ($product["category"] as $item) {
+                $category_check[] = $item["category_id"];
+            }
+            return view('backend.module.product.edit',['category' => $category,'manufacturer' => $manufacturer,'images' => $images,'product' => $product,'category_check' => $category_check,'attribute' => $attribute]);
+        } else {
+            return redirect()->route('admin.product')->with('warning','You Do Not Have Level To Edit This Product');
+        }
     }
 
     /**
@@ -422,18 +439,20 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
-        $check   = $product->delete();
-
-        if ($check) {
-            $log             = new Log;
-            $log->title      = $product["title"]. " (".$product["id"].")";
-            $log->action     = "Delete";
-            $log->controller = "Product";
-            $log->fullname   = Auth::user()->firstname.' '.Auth::user()->lastname." (".Auth::user()->id.")";
-            $log->created_at = new DateTime();
-            $log->save();
+        if (Auth::user()->id == 1 || Auth::user()->id == $product["user_id"]) {
+            $check   = $product->delete();
+            if ($check) {
+                $log             = new Log;
+                $log->title      = $product["title"]. " (".$product["id"].")";
+                $log->action     = "Delete";
+                $log->controller = "Product";
+                $log->fullname   = Auth::user()->firstname.' '.Auth::user()->lastname." (".Auth::user()->id.")";
+                $log->created_at = new DateTime();
+                $log->save();
+            }
+            return redirect()->route('admin.product')->with('success','Delete A Successful Product');
+        } else {
+            return redirect()->route('admin.product')->with('warning','You Do Not Have Level To Delete This Product');
         }
-
-        return redirect()->route('admin.product')->with('success','Delete A Successful Product');
     }
 }

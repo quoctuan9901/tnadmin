@@ -198,7 +198,7 @@ class NewsController extends Controller
             $query->select('category_id');
         }])->first()->toArray();
 
-        if (Auth::user()->id == 1 || Auth::user()->id == $news["id"]) {
+        if (Auth::user()->id == 1 || Auth::user()->id == $news["user_id"]) {
             $category = Category::select('id','name','parent_id','position','status')->orderBy('position','ASC')->get()->toArray();
             $category_check = array();
             foreach ($news["category"] as $item) {
@@ -281,7 +281,7 @@ class NewsController extends Controller
     {
         $news  = News::findOrFail($id);
 
-        if (Auth::user()->id == 1 || Auth::user()->id == $news["id"]) {
+        if (Auth::user()->id == 1 || Auth::user()->id == $news["user_id"]) {
             $check = $news->delete();
             if ($check) {
                 $log             = new Log;
@@ -294,9 +294,7 @@ class NewsController extends Controller
             }
             return redirect()->route('admin.news')->with('success','Delete A Successful News');
         } else {
-            return redirect()->route('admin.news')->with('warning','You Do Not Have Level To Edit This Delete');
+            return redirect()->route('admin.news')->with('warning','You Do Not Have Level To Delete This News');
         }
-
-        
     }
 }
