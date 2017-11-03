@@ -170,7 +170,7 @@
 				</a>
 
 				<ul class="dropdown-menu dropdown-menu-right">
-					<li><a href="{{ route('admin.user.edit',['id' => Auth::user()->id]) }}"><i class="icon-user-lock"></i> Edit My Account</a></li>
+					<li><a href="{{ route('admin.user.get-edit-myself') }}"><i class="icon-user-lock"></i> Edit My Account</a></li>
 					<li><a href="#"><i class="icon-statistics"></i> Analytics (Updated)</a></li>
 					<li><a href="#"><i class="icon-accessibility"></i> Accessibility (Updated)</a></li>
 					<li class="divider"></li>

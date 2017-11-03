@@ -31,7 +31,7 @@
 				</a>
 
 				<ul class="dropdown-menu dropdown-menu-right">
-					<li><a href="{{ route('edit-my-self') }}"><i class="icon-cog5"></i> Account settings</a></li>
+					<li><a href="{{ route('admin.user.get-edit-myself') }}"><i class="icon-cog5"></i> Edit My Account</a></li>
 					<li><a href="{{ route('logout') }}"><i class="icon-switch2"></i> Logout</a></li>
 				</ul>
 			</li>

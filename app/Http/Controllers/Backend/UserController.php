@@ -17,7 +17,7 @@ use App\Models\News;
 use App\Models\Tags;
 use App\Models\Product;
 use App\Models\Log;
-use DateTime,Auth;
+use DateTime,Auth,Hash;
 
 class UserController extends Controller
 {
@@ -263,9 +263,9 @@ class UserController extends Controller
             $user->password = $user["password"];
         } else {
             if (!Hash::check($request->txtOldPass, $user->password)) {
-                return redirect()->route('admin.user.get-edit-myself')->with('danger','The specified password does not match the database password');
-            } elseif ($user->txtPass != $user->txtRePass) {
-                return redirect()->route('admin.user.get-edit-myself')->with('danger','Password And Repass không giống nhau');
+                return redirect()->route('admin.user.get-edit-myself')->with('danger','Old Password Is Incorrect');
+            } elseif ($request->txtPass != $request->txtRePass) {
+                return redirect()->route('admin.user.get-edit-myself')->with('danger','Password And Repassword Do Mot Match');
             } else {
                 $user->password = bcrypt($request->txtPass);
             }
@@ -278,7 +278,7 @@ class UserController extends Controller
         $user->address     = $request->txtAddress;
         $user->facebook    = $request->txtFacebook;
         $user->description = $request->txtDescription;
-        $user->role_id     =  $user["role_id"];
+        $user->role_id     = $user["role_id"];
         $user->level       = $user["level"];
         $user->status      = $user["status"];
         $user->updated_at  = new DateTime;
@@ -295,7 +295,7 @@ class UserController extends Controller
         }
 
         if ($request->btnSave) {
-            return redirect()->route('admin.dashboard.index')->with('success','Update A Successful Member');
+            return redirect()->route('admin.user.get-edit-myself')->with('success','Update A Successful Member');
         }
     }
 }
