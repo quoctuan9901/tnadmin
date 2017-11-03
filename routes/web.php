@@ -54,6 +54,8 @@ Route::group(['prefix' => 'tnadmin','namespace' => 'Backend','middleware' => 'au
 		Route::get('edit/{id}', 'UserController@edit')->name('admin.user.edit')->middleware('role:edit_user');
 		Route::post('edit/{id}', 'UserController@update')->name('admin.user.update')->middleware('role:edit_user');
 		Route::get('delete/{id}', 'UserController@destroy')->name('admin.user.destroy')->middleware('role:delete_user');
+		Route::get('edit-my-self', 'UserController@getEditMyself')->name('admin.user.get-edit-myself');
+		Route::post('edit-my-self', 'UserController@postEditMyself')->name('admin.user.update.post-edit-myself');
 	});
 
 	Route::group(['prefix' => 'post'], function () {

@@ -24,4 +24,11 @@
 		<span class="text-semibold">Warning!</span> {{ session('warning') }}
     </div>
     @endif
+
+    @if (session('danger'))
+    <div class="alert alert-danger alert-styled-left">
+        <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
+        <span class="text-semibold">Warning!</span> {{ session('danger') }}
+    </div>
+    @endif
 </div>

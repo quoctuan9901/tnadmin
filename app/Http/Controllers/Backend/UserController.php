@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\AddRequest;
 use App\Http\Requests\User\EditRequest;
+use App\Http\Requests\User\EditMySelfRequest;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Category;
@@ -245,6 +246,56 @@ class UserController extends Controller
             } else {
                 return redirect()->route('admin.user')->with('warning', 'You Can\'t Delete User.User Created Category,News Banner,Position,News,Post,Tags,Product Or Role');
             }
+        }
+    }
+
+    public function getEditMyself () {
+        $login_id = Auth::user()->id;
+        $user     = User::findOrFail($login_id);
+        return view('backend.module.user.myself',['user' => $user]);
+    }
+
+    public function postEditMyself (EditMySelfRequest $request) {
+        $login_id = Auth::user()->id;
+        $user     = User::findOrFail($login_id);
+        
+        if (empty($request->txtPass)) {
+            $user->password = $user["password"];
+        } else {
+            if (!Hash::check($request->txtOldPass, $user->password)) {
+                return redirect()->route('admin.user.get-edit-myself')->with('danger','The specified password does not match the database password');
+            } elseif ($user->txtPass != $user->txtRePass) {
+                return redirect()->route('admin.user.get-edit-myself')->with('danger','Password And Repass không giống nhau');
+            } else {
+                $user->password = bcrypt($request->txtPass);
+            }
+        }
+
+        $user->avatar      = $request->txtImage;
+        $user->firstname   = $request->txtFirstName;
+        $user->lastname    = $request->txtLastName;
+        $user->phone       = $request->txtPhone;
+        $user->address     = $request->txtAddress;
+        $user->facebook    = $request->txtFacebook;
+        $user->description = $request->txtDescription;
+        $user->role_id     =  $user["role_id"];
+        $user->level       = $user["level"];
+        $user->status      = $user["status"];
+        $user->updated_at  = new DateTime;
+        $check             = $user->save();
+
+        if ($check) {
+            $log             = new Log;
+            $log->title      = $user["email"]. " (".$user["id"].")";
+            $log->action     = "Edit";
+            $log->controller = "User";
+            $log->fullname   = Auth::user()->firstname.' '.Auth::user()->lastname." (".Auth::user()->id.")";
+            $log->created_at = new DateTime();
+            $log->save();
+        }
+
+        if ($request->btnSave) {
+            return redirect()->route('admin.dashboard.index')->with('success','Update A Successful Member');
         }
     }
 }
