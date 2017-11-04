@@ -1,3 +1,6 @@
+@php
+$config_site = DB::table('config')->first();
+@endphp
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>

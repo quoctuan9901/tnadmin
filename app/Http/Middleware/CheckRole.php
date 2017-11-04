@@ -16,12 +16,12 @@ class CheckRole
     public function handle($request, Closure $next, ...$roles)
     {
         if ($request->user() === null) {
-            return abort(500);
+            return abort(403);
         }
 
         if ($request->user()->hasAnyRole($roles) || !$roles) {
             return $next($request);
         }
-        return abort(500);
+        return abort(403);
     }
 }

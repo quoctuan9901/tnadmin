@@ -5,10 +5,10 @@ $config_site = DB::table('config')->first();
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8" />
-    <title>500 - Internal Server Error</title>
+    <title>Access Denied</title>
     <meta name="author" content="{{ $config_site->author }}" />
-    <meta name="keywords" content="500" />
-    <meta name="description" content="500 - Internal Server Error" />
+    <meta name="keywords" content="Access Denied" />
+    <meta name="description" content="Access Denied" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <!-- Bootstrap CSS -->
     <link type="text/css" media="all" href="{{ asset('public/errors/css/bootstrap.min.css') }}" rel="stylesheet" />
@@ -26,9 +26,9 @@ $config_site = DB::table('config')->first();
       <div class="container">
         <div class="row">
           <div>
-            <h1>500</h1>
-            <h2>Internal Server Error</h2>
-            <p>Sorry, We Can't Complete That Request</p>
+            <h1>Access Denied</h1>
+            <h2>Access To The Webpage Was Denied </h2>
+            <p>Please Contact Your Administrator So That You Can Continue To Access</p>
           </div>
         </div>
       </div>

@@ -1,11 +1,14 @@
+@php
+$config_site = DB::table('config')->first();
+@endphp
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8" />
     <title>404 - Not Found</title>
-    <meta name="author" content="bernX" />
-    <meta name="keywords" content="404, css3, html5, template" />
-    <meta name="description" content="404 - Trang Không Tồn Tại" />
+    <meta name="author" content="{{ $config_site->author }}" />
+    <meta name="keywords" content="404" />
+    <meta name="description" content="404 - Page Not Found" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <!-- Bootstrap CSS -->
     <link type="text/css" media="all" href="{{ asset('public/errors/css/bootstrap.min.css') }}" rel="stylesheet" />
@@ -15,8 +18,6 @@
     <link type="text/css" media="all" href="{{ asset('public/errors/css/responsive.css') }}" rel="stylesheet" />
     <!-- Google Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300italic,800italic,800,700italic,700,600italic,600,400italic,300' rel='stylesheet' type='text/css' />
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="public/favicon.ico" />
   </head>
 
   <body>
@@ -26,7 +27,7 @@
         <div class="row">
           <div>
             <h1>404</h1>
-            <h2>Not Found</h2>
+            <h2>Page Not Found</h2>
             <p>This Is Not The Page You Are Looking For</p>
           </div>
         </div>
@@ -67,7 +68,7 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-12">
-            <p>Copyright (c) 2017 Quốc Tuấn . All Rights Reserved.</p>
+            <p>Copyright (c) 2017 {{ $config_site->name_site }} . All Rights Reserved.</p>
           </div>
         </div>
       </div>

@@ -15,11 +15,12 @@ class ConfigTableSeeder extends Seeder
         		[
 					'name_site'           => 'QuocTuan.Info',
 					'title'               => 'Quốc Tuấn',
+					'logo'                => 'public/backend/assets/images/logo.png',
 					'keywords'            => 'lập trình php,lập trình web',
 					'description'         => 'Trung tâm đào tạo lập trình',
 					'copyright'           => 'QuocTuan.Info',
 					'author'              => 'Vũ Quốc Tuấn',
-					'dc_created'          => '2017-12-31',
+					'dc_created'          => '2018-12-31',
 					'dc_rights_copyright' => 'QuocTuan.Info',
 					'dc_creator_name'     => 'Vũ Quốc Tuấn',
 					'dc_creator_email'    => 'contact.quoctuan@gmail.com',

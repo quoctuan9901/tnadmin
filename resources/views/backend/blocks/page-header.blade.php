@@ -3,7 +3,7 @@
 		<div class="page-title">
 			<h5>
 				<span class="text-semibold">@yield('controller','Module')</span> - @yield('action','Action')
-				<small class="display-block">Author : Vũ Quốc Tuấn</small>
+				<small class="display-block">Author : {{ $config_site->author }}</small>
 			</h5>
 		</div>
 
