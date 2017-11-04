@@ -296,6 +296,8 @@ class UserController extends Controller
 
         if ($request->btnSave) {
             return redirect()->route('admin.user.get-edit-myself')->with('success','Update A Successful Member');
+        } else {
+            return redirect()->route('admin.dashboard.index')->with('success','Update A Successful Member');
         }
     }
 }
