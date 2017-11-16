@@ -10,79 +10,84 @@ use Socialite,Auth;
 
 class SocialLoginController extends Controller
 {
-    public function redirectToProviderFacebook () {
-    	return Socialite::driver('facebook')->redirect();
+    /**
+     * Login Facebook
+     *
+     * @return void
+     */
+
+    public function redirectToProvider() {
+        return Socialite::driver('facebook')->redirect();
     }
 
-    public function handleProviderCallbackFacebook () {
-		$user_login = Socialite::driver('facebook')->user();
-		$social     = Social_Login::where('provider_user_id',$user_login->id)
-                    	->where('provider','facebook')->first();
-
-        if ($social) {
-            $user = User::where('email',$user_login->email)->first();
-            Auth::login($user);
-            return redirect('/');
-        } else {
-            $login = new Social_Login;
-            $login->provider_user_id = $user_login->id;
-            $login->provider = 'facebook';
-
-            $user = User::where('email',$user_login->email)->first();
-
-            if (!$user) {
-                $user = User::create([
-					'password'  => str_random(20),
-					'firstname' => $user_login->name,
-					'avatar'    => $user_login->avatar,
-					'email'     => $user_login->email,
-					'level'     => 2,
-					'status'    => 'on'
-                ]);
-            }
-
-            $login->user_id = $user->id;
-            $login->save();
-            Auth::login($user);
-            return redirect('/');
+    public function handleProviderCallback() {
+        try {
+            $user = Socialite::driver('facebook')->user();
+        } catch (Exception $e) {
+            return redirect('login/facebook');
         }
+        $authUser = $this->findOrCreateUser($user);
+
+        Auth::login($authUser, true);
+
+        return redirect('/');
     }
 
-    public function redirectToProviderGoogle () {
-    	return Socialite::driver('google')->redirect();
-    }
+    private function findOrCreateUser($facebookUser) {
+        $authUser = User::where('email', $facebookUser->email)->first();
 
-    public function handleProviderCallbackGoogle () {
-    	$user_login = Socialite::driver('google')->user();
-		$social     = Social_Login::where('provider_user_id',$user_login->id)
-                    	->where('provider','google')->first();
-
-        if ($social) {
-            $user = User::where('email',$user_login->email)->first();
-            Auth::login($user);
-            return redirect('/');
-        } else {
-            $login = new Social_Login;
-            $login->provider_user_id = $user_login->id;
-            $login->provider = 'google';
-
-            $user = User::where('email',$user_login->email)->first();
-
-            if (!$user) {
-                $user = User::create([
-					'password'  => str_random(20),
-					'firstname' => $user_login->name,
-					'avatar'    => $user_login->avatar,
-					'email'     => $user_login->email,
-					'level'     => 2,
-					'status'    => 'on'
-                ]);
-            }
-
-            $login->user_id = $user->id;
-            $login->save();
-            Auth::login($user);
-            return redirect('/');
+        if ($authUser){
+            return $authUser;
         }
+
+        return User::create([
+            'password'   => str_random(20),
+            'firstname' =>  $facebookUser->name,
+            'avatar'     => $facebookUser->avatar,
+            'email'      => $facebookUser->email,
+            'level'      => 2,
+            'status'     => 'on'
+        ]);
+    }
+
+    /**
+     * Login Google
+     *
+     * @return void
+     */
+
+
+    public function redirectToProviderGoogle() {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleProviderCallbackGoogle() {
+        try {
+            $user = Socialite::driver('google')->user();
+        } catch (Exception $e) {
+            return redirect('login/google');
+        }
+        $authUser = $this->findOrCreateUser($user);
+
+        Auth::login($authUser, true);
+
+        return redirect('/');
+    }
+
+    private function findOrCreateUserGoogle($googleUser) {
+        $authUser = User::where('email', $googleUser->email)->first();
+
+        if ($authUser){
+            return $authUser;
+        }
+
+        return User::create([
+            'password'   => str_random(20),
+            'firstname' =>  $googleUser->name,
+            'avatar'     => $googleUser->avatar,
+            'email'      => $googleUser->email,
+            'level'      => 2,
+            'status'     => 'on'
+        ]);
     }
 }
