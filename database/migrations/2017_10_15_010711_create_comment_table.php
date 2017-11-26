@@ -16,6 +16,7 @@ class CreateCommentTable extends Migration
         Schema::create('comment', function (Blueprint $table) {
             $table->increments('id');
             $table->string('comment');
+            $table->string('ip_comment')->nullable();
             $table->integer('like')->default(0);
             $table->integer('dislike')->default(0);
             $table->integer('report')->default(0);

@@ -53,6 +53,7 @@ class PositionController extends Controller
         $position->image      = $request->txtImage;
         $position->alt        = $request->txtAlt;
         $position->parent_id  = $request->sltParent;
+        $position->link       = $request->txtLink;
         $position->user_id    = Auth::user()->id;
         $position->created_at = new DateTime();
         $check                = $position->save();
@@ -115,6 +116,7 @@ class PositionController extends Controller
         $position->image      = $request->txtImage;
         $position->alt        = $request->txtAlt;
         $position->parent_id  = $request->sltParent;
+        $position->link       = $request->txtLink;
         $position->user_id    = Auth::user()->id;
         $position->updated_at = new DateTime();
         $check                = $position->save();

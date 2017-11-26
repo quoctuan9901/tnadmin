@@ -18,6 +18,7 @@ class CreatePositionTable extends Migration
             $table->string('name');
             $table->integer('width')->nullable();
             $table->integer('height')->nullable();
+            $table->string('link')->nullable();
             $table->string('image')->nullable();
             $table->string('alt')->nullable();
             $table->integer('parent_id')->default(0);

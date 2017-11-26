@@ -49,6 +49,7 @@ class CommentController extends Controller
     public function postReply (ReplyRequest $request,$id) {
         $comment             = new Comment;
         $comment->comment    = $request->txtReply;
+        $comment->ip_comment = $request->ip();
         $comment->like       = $request->txtLike;
         $comment->dislike    = $request->txtDislike;
         $comment->report     = $request->txtReport;
@@ -56,9 +57,9 @@ class CommentController extends Controller
         $comment->table_name = $request->txtTableName;
         $comment->table_id   = $request->txtTableId;
         $comment->parent_id  = $id;
-        $comment->status    = ($request->chkStatus == "on") ? "on" : "off";
+        $comment->status     = ($request->chkStatus == "on") ? "on" : "off";
         $comment->created_at = new DateTime();
-        $check = $comment->save();
+        $check               = $comment->save();
 
         if ($check) {
             $log             = new Log;

@@ -29,7 +29,7 @@
 					<th width="80px">ID</th>
 					<th>Username</th>
 					<th width="200px">IP</th>
-					<th width="450px">Browser</th>
+					<th width="250px">Browser</th>
 					<th width="200px">Login At</th>
 					<th width="100px">Action</th>
 				</tr>

@@ -38,6 +38,10 @@
 					<input type="text" name="txtHeight" class="form-control" placeholder="Please Enter Position Height" value="{{ old('txtHeight') }}" />
 				</div>
 				<div class="form-group">
+					<label class="control-label">Link </label>
+					<input type="text" name="txtLink" class="form-control" placeholder="Please Enter Position Link" value="{{ old('txtLink') }}" />
+				</div>
+				<div class="form-group">
 					<label class="control-label">Status Position</label><br />
 					<div class="checkbox checkbox-switch">
 						<input type="checkbox" name="chkStatus" data-on-color="success" data-off-color="danger" data-on-text="Online" data-off-text="Offline" class="switch" checked="checked" />

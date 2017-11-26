@@ -39,6 +39,10 @@
 					<textarea class="form-control" readonly="true">{{ $comment["comment"] }}</textarea>
 				</div>
 				<div class="form-group">
+					<label class="control-label">IP Comment</label>
+					<textarea class="form-control" readonly="true">{{ $comment["ip_comment"] }}</textarea>
+				</div>
+				<div class="form-group">
 					<label class="control-label">Reply Comment <span class="text-danger">*</span></label>
 					<textarea name="txtReply">{{ old('txtReply') }}</textarea>
 					<script type="text/javascript">
