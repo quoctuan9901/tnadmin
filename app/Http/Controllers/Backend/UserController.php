@@ -174,11 +174,13 @@ class UserController extends Controller
         }
 
         if ($user["id"] == Auth::user()->id) {
-            $user->level  = $user["level"];
-            $user->status = $user["status"];
+            $user->level   = $user["level"];
+            $user->status  = $user["status"];
+            $user->role_id = $user["role_id"];
         } else {
-            $user->level  = $request->sltLevel;
-            $user->status = ($request->chkStatus == "on") ? "on" : "off";
+            $user->level   = $request->sltLevel;
+            $user->status  = ($request->chkStatus == "on") ? "on" : "off";
+            $user->role_id =  (isset($request->sltRole)) ? $request->sltRole : null;
         }
 
         $user->avatar      = $request->txtImage;
@@ -188,7 +190,7 @@ class UserController extends Controller
         $user->address     = $request->txtAddress;
         $user->facebook    = $request->txtFacebook;
         $user->description = $request->txtDescription;
-        $user->role_id     =  (isset($request->sltRole)) ? $request->sltRole : null;
+        
         $user->updated_at  = new DateTime;
         $check             = $user->save();
 
@@ -287,7 +289,7 @@ class UserController extends Controller
         if ($check) {
             $log             = new Log;
             $log->title      = $user["email"]. " (".$user["id"].")";
-            $log->action     = "Edit";
+            $log->action     = "Edit My Self";
             $log->controller = "User";
             $log->fullname   = Auth::user()->firstname.' '.Auth::user()->lastname." (".Auth::user()->id.")";
             $log->created_at = new DateTime();
