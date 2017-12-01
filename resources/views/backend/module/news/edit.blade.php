@@ -25,72 +25,116 @@
 			</div>
 
 			<div class="panel-body">
-				<div class="form-group">
-					<label class="control-label">Title <span class="text-danger">*</span></label>
-					<input type="text" id="name-slug" name="txtTitle" class="form-control" placeholder="Please Enter News Title" value="{{ old('txtTitle',$news["title"]) }}" />
-				</div>
-				<div class="form-group">
-					<label class="control-label">Author</label>
-					<div class="row">
-						<div class="col-md-6">
+				<div class="tabbable tab-content-bordered">
+					<ul class="nav nav-tabs nav-tabs-highlight nav-justified">
+						<li class="active"><a href="#bordered-justified-tab1" data-toggle="tab">Infomation</a></li>
+						<li><a href="#bordered-justified-tab2" data-toggle="tab">Images</a></li>
+					</ul>
+
+					<div class="tab-content">
+						<div class="tab-pane has-padding active" id="bordered-justified-tab1">
 							<div class="form-group">
-                                <input type="text" name="txtNickname" class="form-control" placeholder="Nickname" value="{{ old('txtNickname',$news["author"]) }}" />
-                            </div>
+								<label class="control-label">Title <span class="text-danger">*</span></label>
+								<input type="text" id="name-slug" name="txtTitle" class="form-control" placeholder="Please Enter News Title" value="{{ old('txtTitle',$news["title"]) }}" />
+							</div>
+							<div class="form-group">
+								<label class="control-label">Author</label>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+			                                <input type="text" name="txtNickname" class="form-control" placeholder="Nickname" value="{{ old('txtNickname',$news["author"]) }}" />
+			                            </div>
+									</div>
+									@php $nickname = '' @endphp
+									@if (empty(Auth::user()->firstname) && empty(Auth::user()->lastname))
+										@php $nickname = 'Unknown' @endphp
+									@else
+										@php $nickname = Auth::user()->firstname . ' ' . Auth::user()->lastname @endphp
+									@endif
+									<div class="col-md-6">
+										<div class="form-group">
+			                                <input type="text" name="txtLoginName" class="form-control" placeholder="Login Name" value="{{ $nickname }}" readonly />
+			                            </div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label">Origin</label>
+								<input type="text" name="txtOrigin" class="form-control" placeholder="Please Enter News Origin" value="{{ old('txtOrigin',$news["origin"]) }}" />
+							</div>
+							<div class="form-group">
+								<label class="control-label">Intro</label>
+								<textarea name="txtIntro">{{ old('txtIntro',$news["intro"]) }}</textarea>
+								<script type="text/javascript">
+									 CKEDITOR.replace('txtIntro', { height: '200px' });
+								</script>
+							</div>
+							<div class="form-group">
+								<label class="control-label">Content</label>
+								<textarea name="txtContent">{{ old('txtContent',$news["content"]) }}</textarea>
+								<script type="text/javascript">
+									 CKEDITOR.replace('txtContent', { height: '400px' });
+								</script>
+							</div>
+							<div class="form-group">
+								<label class="control-label">Foot</label>
+								<textarea name="txtFoot">{{ old('txtFoot',$news["foot"]) }}</textarea>
+								<script type="text/javascript">
+									 CKEDITOR.replace('txtFoot', { height: '200px' });
+								</script>
+							</div>
+							<div class="form-group">
+								<label class="control-label">Slug URL</label>
+								<input type="text" id="txtSlug" name="txtSlug" class="form-control" placeholder="Please Enter Slug URL" value="{{ old('txtSlug',$news["slug"]) }}" />
+							</div>
+							<div class="form-group" style="margin-bottom: 50px">
+								<label class="control-label">Title Tag (Ex : Primary Keyword - Secondary Keyword)</label>
+								<input type="text" id="txtMetaTitle" name="txtMetaTitle" class="form-control col-lg-6 maxlength-textarea" maxlength="70" placeholder="Please Enter Primary Keyword - Secondary Keyword (SEO)" value="{{ old('txtMetaTitle',$news["title_tag"]) }}" />
+							</div>
+							<div class="form-group">
+								<label class="control-label">Meta Keywords</label>
+								<input type="text" name="txtMetaKeywords" class="tags-input" placeholder="Please Enter Meta Keywords Tag (SEO)" value="{{ old('txtMetaKeywords',$news["meta_keywords_tag"]) }}" />
+								<span class="help-block">Keywords not more that 10 words</span>
+							</div>
+							<div class="form-group">
+								<label class="control-label">Meta Description</label>
+								<textarea rows="3" name="txtMetaDescription" cols="3" maxlength="160" class="form-control maxlength-textarea" placeholder="Please Enter Meta Description Tag (SEO)">{{ old('txtMetaDescription',$news["meta_description_tag"]) }}</textarea>
+							</div>
 						</div>
-						@php $nickname = '' @endphp
-						@if (empty(Auth::user()->firstname) && empty(Auth::user()->lastname))
-							@php $nickname = 'Unknown' @endphp
-						@else
-							@php $nickname = Auth::user()->firstname . ' ' . Auth::user()->lastname @endphp
-						@endif
-						<div class="col-md-6">
-							<div class="form-group">
-                                <input type="text" name="txtLoginName" class="form-control" placeholder="Login Name" value="{{ $nickname }}" readonly />
-                            </div>
+
+						<div class="tab-pane has-padding" id="bordered-justified-tab2">
+							<div class="table-responsive">
+								<table id="images" class="table table-bordered">
+									<thead>
+										<tr>
+											<th width="150px">Image</th>
+											<th width="280">Alt</th>
+											<th width="85px">Order</th>
+											<th width="25px">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										@php $id_img = 100 @endphp
+										@foreach($images as $img)
+										<tr id="image-row{{ $id_img }}">
+									    	<td class="text-left"><a id="thumb-image{{ $id_img }}"data-toggle="image" class="img-thumbnail"><img class="upload-image" src="{{ $img["images"] }}" id="img-detail-{{ $id_img }}" width="100px" height="100px" /><input type="hidden" name="post_image[{{ $id_img }}][image]" value="{{ $img["images"] }}" id="input-image-{{ $id_img }}" /></td>
+									    	<td class="text-right"><input type="text" name="post_image[{{ $id_img }}][alt]" placeholder="Alt Image" class="form-control" value="{{ $img["alt"] }}" /></td>
+									    	<td class="text-right"><input type="text" name="post_image[{{ $id_img }}][sort_order]" placeholder="Sort Order" class="form-control" value="{{ $img["position"] }}" /></td>
+									    	<td class="text-left"><button type="button" onclick="$('#image-row{{ $id_img }}').remove();" data-toggle="tooltip" title="Remove" class="btn btn-danger"><i class="icon-close2"></i></button></td>
+									    </tr>
+									    	@php $id_img++ @endphp
+									    @endforeach
+									</tbody>
+									<tfoot>
+										<tr>
+											<td colspan="3"></td>
+											<td><button type="button" onclick="addImage();" data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Add Image"><i class="icon-add"></i></button></td>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label">Origin</label>
-					<input type="text" name="txtOrigin" class="form-control" placeholder="Please Enter News Origin" value="{{ old('txtOrigin',$news["origin"]) }}" />
-				</div>
-				<div class="form-group">
-					<label class="control-label">Intro</label>
-					<textarea name="txtIntro">{{ old('txtIntro',$news["intro"]) }}</textarea>
-					<script type="text/javascript">
-						 CKEDITOR.replace('txtIntro', { height: '200px' });
-					</script>
-				</div>
-				<div class="form-group">
-					<label class="control-label">Content</label>
-					<textarea name="txtContent">{{ old('txtContent',$news["content"]) }}</textarea>
-					<script type="text/javascript">
-						 CKEDITOR.replace('txtContent', { height: '400px' });
-					</script>
-				</div>
-				<div class="form-group">
-					<label class="control-label">Foot</label>
-					<textarea name="txtFoot">{{ old('txtFoot',$news["foot"]) }}</textarea>
-					<script type="text/javascript">
-						 CKEDITOR.replace('txtFoot', { height: '200px' });
-					</script>
-				</div>
-				<div class="form-group">
-					<label class="control-label">Slug URL</label>
-					<input type="text" id="txtSlug" name="txtSlug" class="form-control" placeholder="Please Enter Slug URL" value="{{ old('txtSlug',$news["slug"]) }}" />
-				</div>
-				<div class="form-group" style="margin-bottom: 50px">
-					<label class="control-label">Title Tag (Ex : Primary Keyword - Secondary Keyword)</label>
-					<input type="text" id="txtMetaTitle" name="txtMetaTitle" class="form-control col-lg-6 maxlength-textarea" maxlength="70" placeholder="Please Enter Primary Keyword - Secondary Keyword (SEO)" value="{{ old('txtMetaTitle',$news["title_tag"]) }}" />
-				</div>
-				<div class="form-group">
-					<label class="control-label">Meta Keywords</label>
-					<input type="text" name="txtMetaKeywords" class="tags-input" placeholder="Please Enter Meta Keywords Tag (SEO)" value="{{ old('txtMetaKeywords',$news["meta_keywords_tag"]) }}" />
-					<span class="help-block">Keywords not more that 10 words</span>
-				</div>
-				<div class="form-group">
-					<label class="control-label">Meta Description</label>
-					<textarea rows="3" name="txtMetaDescription" cols="3" maxlength="160" class="form-control maxlength-textarea" placeholder="Please Enter Meta Description Tag (SEO)">{{ old('txtMetaDescription',$news["meta_description_tag"]) }}</textarea>
 				</div>
 			</div>
 		</div>

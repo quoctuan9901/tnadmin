@@ -9,8 +9,9 @@ use App\Http\Requests\News\EditRequest;
 use App\Models\News;
 use App\Models\Category;
 use App\Models\Category_News;
+use App\Models\Images_News;
 use App\Models\Log;
-use DateTime,Auth;
+use DateTime,Auth,DB;
 
 class NewsController extends Controller
 {
@@ -91,6 +92,23 @@ class NewsController extends Controller
             $category_news->category_id = $category;
             $category_news->news_id     = $news->id;
             $category_news->save();
+        }
+
+        if ($check){
+            if (!empty($request->post_image)) {
+                foreach ($request->post_image as $image) {
+                    if (!empty($image["image"])) {
+                        DB::table('news_images')->insert(
+                            [
+                                'images'   => $image["image"], 
+                                'alt'      => $image["alt"],
+                                'position' => $image["sort_order"] , 
+                                'news_id'  => $news->id
+                            ]
+                        );
+                    }
+                }
+            }
         }
 
         if ($check) {
@@ -199,12 +217,13 @@ class NewsController extends Controller
         }])->first()->toArray();
 
         if (Auth::user()->id == 1 || Auth::user()->id == $news["user_id"]) {
+            $images   = News::find($id)->news_image()->get()->toArray();
             $category = Category::select('id','name','parent_id','position','status')->orderBy('position','ASC')->get()->toArray();
             $category_check = array();
             foreach ($news["category"] as $item) {
                 $category_check[] = $item["category_id"];
             }
-            return view('backend.module.news.edit',['news' => $news,'category' => $category,'category_check' => $category_check]);
+            return view('backend.module.news.edit',['news' => $news,'category' => $category,'category_check' => $category_check,'images' => $images]);
         } else {
             return redirect()->route('admin.news')->with('warning','You Do Not Have Level To Edit This News');
         }
@@ -250,6 +269,24 @@ class NewsController extends Controller
                 $category_news->category_id = $category;
                 $category_news->news_id     = $news->id;
                 $category_news->save();
+            }
+        }
+
+        if ($done){
+            Images_News::where('news_id', $id)->delete();
+            if (!empty($request->post_image)) {
+                foreach ($request->post_image as $image) {
+                    if (!empty($image["image"])) {
+                        DB::table('news_images')->insert(
+                            [
+                                'images'   => $image["image"], 
+                                'alt'      => $image["alt"],
+                                'position' => $image["sort_order"], 
+                                'news_id'  => $news->id
+                            ]
+                        );
+                    }
+                }
             }
         }
 

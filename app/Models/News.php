@@ -18,4 +18,8 @@ class News extends Model
 	{
 	    return $this->belongsTo('App\Models\User','user_id');
 	}
+
+    public function news_image () {
+        return $this->hasMany('App\Models\Images_News');
+    }
 }
