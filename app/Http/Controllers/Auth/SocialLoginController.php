@@ -16,11 +16,11 @@ class SocialLoginController extends Controller
      * @return void
      */
 
-    public function redirectToProvider() {
+    public function redirectToProviderFacebook() {
         return Socialite::driver('facebook')->redirect();
     }
 
-    public function handleProviderCallback() {
+    public function handleProviderCallbackFacebook() {
         try {
             $user = Socialite::driver('facebook')->user();
         } catch (Exception $e) {
