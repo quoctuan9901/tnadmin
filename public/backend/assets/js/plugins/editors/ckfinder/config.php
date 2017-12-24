@@ -30,6 +30,9 @@ $app->make('Illuminate\Contracts\Http\Kernel')
 function CheckAuthentication()
 {
 	if(\Auth::check() && \Auth::user()->level == 1) {
+		if(!is_dir(public_path().'//uploads/'.md5(Auth::user()->email))) {
+            File::makeDirectory(public_path().'//uploads/'.md5(Auth::user()->email),0777,true);
+    	}
         return true;
     } else {
         return false;
@@ -63,7 +66,7 @@ Examples:
 
 ATTENTION: The trailing slash is required.
 */
-$baseUrl = env('APP_URL') . "/public/uploads/";
+$baseUrl = env('APP_URL') . "/public/uploads/".md5(Auth::user()->email);
 
 /*
 $baseDir : the path to the local directory (in the server) which points to the
@@ -93,8 +96,8 @@ Thumbnails : thumbnails settings. All thumbnails will end up in the same
 directory, no matter the resource type.
 */
 $config['Thumbnails'] = Array(
-		'url' => $baseUrl . '_thumbs',
-		'directory' => $baseDir . '_thumbs',
+		'url' => $baseUrl . '/_thumbs',
+		'directory' => $baseDir . '/_thumbs',
 		'enabled' => true,
 		'directAccess' => false,
 		'maxWidth' => 100,
@@ -197,24 +200,24 @@ $config['DefaultResourceTypes'] = '';
 
 $config['ResourceType'][] = Array(
 		'name' => 'Files',				// Single quotes not allowed
-		'url' => $baseUrl . 'files',
-		'directory' => $baseDir . 'files',
+		'url' => $baseUrl . '/files',
+		'directory' => $baseDir . '/files',
 		'maxSize' => 0,
 		'allowedExtensions' => '7z,aiff,asf,avi,bmp,csv,doc,docx,fla,flv,gif,gz,gzip,jpeg,jpg,mid,mov,mp3,mp4,mpc,mpeg,mpg,ods,odt,pdf,png,ppt,pptx,pxd,qt,ram,rar,rm,rmi,rmvb,rtf,sdc,sitd,swf,sxc,sxw,tar,tgz,tif,tiff,txt,vsd,wav,wma,wmv,xls,xlsx,zip',
 		'deniedExtensions' => '');
 
 $config['ResourceType'][] = Array(
 		'name' => 'Images',
-		'url' => $baseUrl . 'images',
-		'directory' => $baseDir . 'images',
+		'url' => $baseUrl . '/images',
+		'directory' => $baseDir . '/images',
 		'maxSize' => 0,
 		'allowedExtensions' => 'bmp,gif,jpeg,jpg,png',
 		'deniedExtensions' => '');
 
 $config['ResourceType'][] = Array(
 		'name' => 'Flash',
-		'url' => $baseUrl . 'flash',
-		'directory' => $baseDir . 'flash',
+		'url' => $baseUrl . '/flash',
+		'directory' => $baseDir . '/flash',
 		'maxSize' => 0,
 		'allowedExtensions' => 'swf,flv',
 		'deniedExtensions' => '');
