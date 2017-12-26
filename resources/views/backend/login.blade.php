@@ -132,13 +132,12 @@
 	$(".btn-refresh").click(function(){
 	  	$.ajax({
 	     	type:'GET',
-	     	url: {{ env('APP_URL') }} + '/refresh-captcha',
+	     	url: '{{ env('APP_URL') }}/refresh-captcha',
 	     	success:function(data){
 	        	$(".captcha span").html(data.captcha);
 	     	}
 	  	});
 	});
 	</script>
-
 </body>
 </html>
