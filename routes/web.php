@@ -17,6 +17,10 @@ Route::namespace('Frontend')->group(function () {
 	});
 });
 
+Route::get('refresh-captcha', function () {
+    return response()->json(['captcha'=> captcha_img()]);
+});
+
 Route::group(['prefix' => 'login','namespace' => 'Auth'],function () {
 	Route::get('facebook', 'SocialLoginController@redirectToProviderFacebook')->name('loginFacebook');
 	Route::get('facebook/callback', 'SocialLoginController@handleProviderCallbackFacebook')->name('callBackFacebook');

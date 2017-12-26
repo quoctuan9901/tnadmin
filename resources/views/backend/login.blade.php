@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="shortcut icon" href="{{ asset('public/backend/images/favicon.ico') }}" type="image/x-icon">
+	<link rel="shortcut icon" href="{{ asset('public/favicon.ico') }}" type="image/x-icon">
 	<title>Login</title>
 
 	<!-- Global stylesheets -->
@@ -57,9 +57,20 @@
 						<div class="panel panel-body login-form">
 							<div class="text-center">
 								<div class="icon-object border-slate-300 text-slate-300"><i class="icon-lock"></i></div>
-								<h5 class="content-group">Login to your account <small class="display-block">Your credentials</small></h5>
+								<h5 class="content-group">Administration Login<small class="display-block">Your Infomation Login</small></h5>
 							</div>
 							<div class="clear"></div>
+							@if (count($errors) > 0)
+							<div class="alert alert-danger alert-styled-left alert-bordered">
+								<button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
+								<span class="text-semibold">Oh snap!</span>
+								<ul>
+						            @foreach ($errors->all() as $error)
+						                <li>{{ $error }}</li>
+						            @endforeach
+						        </ul>
+						    </div>
+						    @endif
 							<div class="form-group has-feedback has-feedback-left">
 								<input type="text" class="form-control" placeholder="Email" name="txtEmail" required="required">
 								<div class="form-control-feedback">
@@ -80,7 +91,24 @@
 								</div>
 							</div>
 
-							<div class="form-group">
+							<div class="form-group has-feedback has-feedback-left">
+								<div class="col-lg-8" style="padding-left:0px">
+		                      		<input type="text" class="form-control" placeholder="Captcha" name="txtCaptcha" />
+									<div class="form-control-feedback">
+										<i class="icon-lock2 text-muted"></i>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="captcha">
+		                          		<span>{!! captcha_img() !!}</span>
+		                          		<button type="button" class="btn btn-success btn-refresh"><i class="icon-spinner11"></i></button>
+		                          	</div>
+		                        </div>
+		                  	</div>
+
+		                  	<div style="clear:both"></div>
+
+							<div class="form-group" style="margin-top:20px">
 								<button name="btnLogin" type="submit" class="btn bg-blue btn-block">Login <i class="icon-arrow-right14 position-right"></i></button>
 							</div>
 
@@ -99,6 +127,18 @@
 
 	</div>
 	<!-- /page container -->
+
+	<script type="text/javascript">
+	$(".btn-refresh").click(function(){
+	  	$.ajax({
+	     	type:'GET',
+	     	url: {{ env('APP_URL') }} + '/refresh-captcha',
+	     	success:function(data){
+	        	$(".captcha span").html(data.captcha);
+	     	}
+	  	});
+	});
+	</script>
 
 </body>
 </html>
