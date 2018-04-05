@@ -126,6 +126,57 @@
 			</div>
 		</div>
 	</div>
+
+	<hr />
+
+	@if (env('APP_LANG'))
+	<div class="col-md-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h6 class="panel-title">Add Category English</h6>
+				<div class="heading-elements">
+					<ul class="icons-list">
+						<li><a data-action="collapse"></a></li>
+						<li><a data-action="reload"></a></li>
+						<li><a data-action="close"></a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="control-label">Category Name <span class="text-danger">*</span></label>
+					<input type="text" id="name-slug-en" name="txtNameEn" class="form-control" placeholder="Please Enter Category Name" value="{{ old('txtNameEn') }}" />
+				</div>
+				<div class="form-group">
+					<label class="control-label">Description</label>
+					<textarea name="txtDescriptionEn">{{ old('txtDescriptionEn') }}</textarea>
+					<script type="text/javascript">
+                        CKEDITOR.replace('txtDescriptionEn', { height: '400px' });
+					</script>
+				</div>
+				<div class="form-group">
+					<label class="control-label">Slug URL</label>
+					<input type="text" id="txtSlugEn" name="txtSlugEn" class="form-control" placeholder="Please Enter Slug URL" value="{{ old('txtSlugEn') }}" />
+				</div>
+				<div class="form-group" style="margin-bottom: 50px">
+					<label class="control-label">Title Tag (Ex : Primary Keyword - Secondary Keyword)</label>
+					<input type="text" id="txtMetaTitleEn" name="txtMetaTitleEn" class="form-control col-lg-6 maxlength-textarea" maxlength="70" placeholder="Please Enter Primary Keyword - Secondary Keyword (SEO)" value="{{ old('txtMetaTitleEn') }}" />
+				</div>
+				<div class="form-group">
+					<label class="control-label">Meta Keywords</label>
+					<input type="text" name="txtMetaKeywordsEn" class="tags-input" placeholder="Please Enter Meta Keywords Tag (SEO)" value="{{ old('txtMetaKeywordsEn') }}" />
+					<span class="help-block">Keywords not more that 10 words</span>
+				</div>
+				<div class="form-group">
+					<label class="control-label">Meta Description</label>
+					<textarea rows="3" name="txtMetaDescriptionEn" cols="3" maxlength="160" class="form-control maxlength-textarea" placeholder="Please Enter Meta Description Tag (SEO)">{{ old('txtMetaDescriptionEn') }}</textarea>
+				</div>
+			</div>
+		</div>
+	</div>
+	@endif
+
 	@include ('backend.blocks.button_bottom',['exit' => route('admin.category')])
 </form>
 @endsection

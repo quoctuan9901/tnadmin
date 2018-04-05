@@ -68,6 +68,16 @@ class CategoryController extends Controller
         $category->meta_description_tag = $request->txtMetaDescription;
         $category->user_id              = Auth::user()->id;
         $category->created_at           = new DateTime();
+
+        if (env('APP_LANG')) {
+            $category->name_en                 = $request->txtNameEn;
+            $category->description_en          = $request->txtDescriptionEn;
+            $category->slug_en                 = $request->txtSlugEn;
+            $category->title_tag_en            = $request->txtMetaTitleEn;
+            $category->meta_keywords_tag_en    = $request->txtMetaKeywordsEn;
+            $category->meta_description_tag_en = $request->txtMetaDescriptionEn;
+        }
+
         $check                          = $category->save();
 
         if ($check) {
@@ -137,6 +147,16 @@ class CategoryController extends Controller
         $category->meta_description_tag = $request->txtMetaDescription;
         $category->user_id              = Auth::user()->id;
         $category->updated_at           = new DateTime();
+
+        if (env('APP_LANG')) {
+            $category->name_en                 = $request->txtNameEn;
+            $category->description_en          = $request->txtDescriptionEn;
+            $category->slug_en                 = $request->txtSlugEn;
+            $category->title_tag_en            = $request->txtMetaTitleEn;
+            $category->meta_keywords_tag_en    = $request->txtMetaKeywordsEn;
+            $category->meta_description_tag_en = $request->txtMetaDescriptionEn;
+        }
+
         $check                          = $category->save();
 
         if ($check) {

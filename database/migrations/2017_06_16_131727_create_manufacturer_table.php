@@ -22,6 +22,10 @@ class CreateManufacturerTable extends Migration
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->string('description')->nullable();
+            if (env('APP_LANG')) {
+                $table->string('name_en')->nullable();
+                $table->text('description_en')->nullable();
+            }
             $table->timestamps();
         });
     }

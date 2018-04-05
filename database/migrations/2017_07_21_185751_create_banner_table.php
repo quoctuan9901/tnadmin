@@ -24,6 +24,11 @@ class CreateBannerTable extends Migration
             $table->string('status');
             $table->integer('access');
             $table->string('target_open');
+            if (env('APP_LANG')) {
+                $table->string('name_en')->nullable();
+                $table->text('description_en')->nullable();
+                $table->string('link_en')->nullable();
+            }
             $table->integer('position_id')->unsigned();
             $table->foreign('position_id')->references('id')->on('position');
             $table->integer('user_id')->unsigned();

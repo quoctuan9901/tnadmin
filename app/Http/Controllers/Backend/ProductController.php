@@ -95,6 +95,17 @@ class ProductController extends Controller
         $product->user_id              = Auth::user()->id;
         $product->manufacturer_id      = $request->sltManufacturer;
         $product->created_at           = new DateTime();
+
+        if (env('APP_LANG')) {
+            $product->title_en                = $request->txtTitleEn;
+            $product->intro_en                = $request->txtIntroEn;
+            $product->content_en              = $request->txtContentEn;
+            $product->slug_en                 = $request->txtSlugEn;
+            $product->title_tag_en            = $request->txtMetaTitleEn;
+            $product->meta_keywords_tag_en    = $request->txtMetaKeywordsEn;
+            $product->meta_description_tag_en = $request->txtMetaDescriptionEn;
+        }
+
         $check                         = $product->save();
 
         foreach ($request->chkCategory as $category) {
@@ -365,6 +376,17 @@ class ProductController extends Controller
         $product->user_id              = Auth::user()->id;
         $product->manufacturer_id      = $request->sltManufacturer;
         $product->updated_at           = new DateTime();
+
+        if (env('APP_LANG')) {
+            $product->title_en                = $request->txtTitleEn;
+            $product->intro_en                = $request->txtIntroEn;
+            $product->content_en              = $request->txtContentEn;
+            $product->slug_en                 = $request->txtSlugEn;
+            $product->title_tag_en            = $request->txtMetaTitleEn;
+            $product->meta_keywords_tag_en    = $request->txtMetaKeywordsEn;
+            $product->meta_description_tag_en = $request->txtMetaDescriptionEn;
+        }
+
         $check                         = $product->save();
 
 		if ($check) {

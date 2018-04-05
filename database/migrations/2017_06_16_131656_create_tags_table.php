@@ -21,6 +21,14 @@ class CreateTagsTable extends Migration
             $table->string('title_tag')->nullable();
             $table->string('meta_keywords_tag')->nullable();
             $table->string('meta_description_tag')->nullable();
+            if (env('APP_LANG')) {
+                $table->string('tags_en')->nullable();
+                $table->text('description_en')->nullable();
+                $table->string('slug_en')->nullable();
+                $table->string('title_tag_en')->nullable();
+                $table->string('meta_keywords_tag_en')->nullable();
+                $table->string('meta_description_tag_en')->nullable();
+            }
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

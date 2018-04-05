@@ -57,6 +57,16 @@ class TagsController extends Controller
         $tags->meta_description_tag = $request->txtMetaDescription;
         $tags->user_id              = Auth::user()->id;
         $tags->created_at           = new DateTime();
+
+        if (env('APP_LANG')) {
+            $tags->tags_en                 = $request->txtTagEn;
+            $tags->description_en          = $request->txtContentEn;
+            $tags->slug_en                 = $request->txtSlugEn;
+            $tags->title_tag_en            = $request->txtMetaTitleEn;
+            $tags->meta_keywords_tag_en    = $request->txtMetaKeywordsEn;
+            $tags->meta_description_tag_en = $request->txtMetaDescriptionEn;
+        }
+
         $check                      = $tags->save();
 
         if ($check) {
@@ -117,6 +127,16 @@ class TagsController extends Controller
         $tags->meta_description_tag = $request->txtMetaDescription;
         $tags->user_id              = Auth::user()->id;
         $tags->updated_at           = new DateTime();
+
+        if (env('APP_LANG')) {
+            $tags->tags_en                 = $request->txtTagEn;
+            $tags->description_en          = $request->txtContentEn;
+            $tags->slug_en                 = $request->txtSlugEn;
+            $tags->title_tag_en            = $request->txtMetaTitleEn;
+            $tags->meta_keywords_tag_en    = $request->txtMetaKeywordsEn;
+            $tags->meta_description_tag_en = $request->txtMetaDescriptionEn;
+        }
+
         $check                      = $tags->save();
 
         if ($check) {

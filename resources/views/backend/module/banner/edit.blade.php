@@ -105,6 +105,42 @@
 			</div>
 		</div>
 	</div>
+
+	@if (env('APP_LANG'))
+	<div class="col-md-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h6 class="panel-title">Edit Banner English</h6>
+				<div class="heading-elements">
+					<ul class="icons-list">
+						<li><a data-action="collapse"></a></li>
+						<li><a data-action="reload"></a></li>
+						<li><a data-action="close"></a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="control-label">Banner Name <span class="text-danger">*</span></label>
+					<input type="text" id="name-slug-en" name="txtNameEn" class="form-control" placeholder="Please Enter Banner Name" value="{{ old('txtNameEn',$banner["name_en"]) }}" />
+				</div>
+				<div class="form-group">
+					<label class="control-label">Link </label>
+					<input type="text" name="txtLinkEn" class="form-control" placeholder="Please Enter Banner Link" value="{{ old('txtLinkEn',$banner["link_en"]) }}" />
+				</div>
+				<div class="form-group">
+					<label class="control-label">Description</label>
+					<textarea name="txtDescriptionEn">{{ old('txtDescriptionEn',$banner["description_en"]) }}</textarea>
+					<script type="text/javascript">
+						CKEDITOR.replace('txtDescriptionEn', { height: '200px' });
+					</script>
+				</div>
+			</div>
+		</div>
+	</div>
+	@endif
+
 	@include ('backend.blocks.button_bottom',['exit' => route('admin.banner')])
 </form>
 @endsection

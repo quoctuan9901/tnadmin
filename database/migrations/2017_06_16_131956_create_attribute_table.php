@@ -19,6 +19,10 @@ class CreateAttributeTable extends Migration
             $table->text('description')->nullable();
             $table->integer('parent_id')->default(0);
             $table->string('status');
+            if (env('APP_LANG')) {
+                $table->string('name_en')->nullable();
+                $table->text('description_en')->nullable();
+            }
             $table->timestamps();
         });
     }

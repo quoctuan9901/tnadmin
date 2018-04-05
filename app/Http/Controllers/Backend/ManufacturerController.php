@@ -51,6 +51,12 @@ class ManufacturerController extends Controller
         $manufacturer->description = $request->txtDescription;
         $manufacturer->logo        = $request->txtImage;
         $manufacturer->created_at  = new DateTime();
+
+        if (env('APP_LANG')) {
+            $manufacturer->name_en        = $request->txtNameEn;
+            $manufacturer->description_en = $request->txtDescriptionEn;
+        }
+
         $check                     = $manufacturer->save();
 
         if ($check) {
@@ -111,6 +117,12 @@ class ManufacturerController extends Controller
         $manufacturer->description = $request->txtDescription;
         $manufacturer->logo        = $request->txtImage;
         $manufacturer->created_at  = new DateTime();
+
+        if (env('APP_LANG')) {
+            $manufacturer->name_en        = $request->txtNameEn;
+            $manufacturer->description_en = $request->txtDescriptionEn;
+        }
+
         $check                     = $manufacturer->save();
 
         if ($check) {

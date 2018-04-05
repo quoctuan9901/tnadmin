@@ -48,6 +48,12 @@ class AttributeController extends Controller
         $attribute->parent_id   = $request->sltParent;
         $attribute->status      = ($request->chkStatus == "on") ? "on" : "off";
         $attribute->created_at  = new DateTime();
+
+        if (env('APP_LANG')) {
+            $attribute->name_en        = $request->txtNameEn;
+            $attribute->description_en = $request->txtDescriptionEn;
+        }
+
         $check                  = $attribute->save();
 
         if ($check) {
@@ -106,6 +112,12 @@ class AttributeController extends Controller
         $attribute->parent_id   = $request->sltParent;
         $attribute->status      = ($request->chkStatus == "on") ? "on" : "off";
         $attribute->updated_at  = new DateTime();
+
+        if (env('APP_LANG')) {
+            $attribute->name_en        = $request->txtNameEn;
+            $attribute->description_en = $request->txtDescriptionEn;
+        }
+
         $check                  = $attribute->save();
 
         if ($check) {

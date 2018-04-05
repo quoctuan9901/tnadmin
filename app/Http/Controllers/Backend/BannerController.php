@@ -66,6 +66,13 @@ class BannerController extends Controller
         $banner->status      = ($request->chkStatus == "on") ? "on" : "off";
         $banner->user_id     = Auth::user()->id;
         $banner->created_at  = new DateTime();
+
+        if (env('APP_LANG')) {
+            $banner->name_en        = $request->txtNameEn;
+            $banner->description_en = $request->txtDescriptionEn;
+            $banner->link_en        = $request->txtLinkEn;
+        }
+
         $check               = $banner->save();
 
         if ($check) {
@@ -131,6 +138,13 @@ class BannerController extends Controller
         $banner->status      = ($request->chkStatus == "on") ? "on" : "off";
         $banner->user_id     = Auth::user()->id;
         $banner->updated_at  = new DateTime();
+
+        if (env('APP_LANG')) {
+            $banner->name_en        = $request->txtNameEn;
+            $banner->description_en = $request->txtDescriptionEn;
+            $banner->link_en        = $request->txtLinkEn;
+        }
+
         $check               = $banner->save();
 
         if ($check) {

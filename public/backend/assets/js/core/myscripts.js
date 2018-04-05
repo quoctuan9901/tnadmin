@@ -131,12 +131,16 @@ function convertToSlug () {
         var val = $(this).val();
         var slug = to_slug(val);
         $("#txtSlug").val(slug);
-    });
-
-    $('#name-slug').keyup(function() {
-        var val = $(this).val();
         $("#txtMetaTitle").val(val);
         $("input[name='txtAlt']").val(val);
+    });
+
+    $('#name-slug-en').keyup(function() {
+        var val = $(this).val();
+        var slug = to_slug(val);
+        $("#txtSlugEn").val(slug);
+        $("#txtMetaTitleEn").val(val);
+        $("input[name='txtAltEn']").val(val);
     });
 }
 

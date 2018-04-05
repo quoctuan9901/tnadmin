@@ -79,6 +79,40 @@
 			</div>
 		</div>
 	</div>
+
+	<hr />
+
+	@if (env('APP_LANG'))
+	<div class="col-md-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h6 class="panel-title">Edit Manufacturer English</h6>
+				<div class="heading-elements">
+					<ul class="icons-list">
+						<li><a data-action="collapse"></a></li>
+						<li><a data-action="reload"></a></li>
+						<li><a data-action="close"></a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="control-label">Name <span class="text-danger">*</span></label>
+					<input type="text" name="txtNameEn" class="form-control" placeholder="Please Enter Manufacturer Name" value="{{ old('txtNameEn',$manufacturer["name_en"]) }}" />
+				</div>
+				<div class="form-group">
+					<label class="control-label">Description</label>
+					<textarea name="txtDescriptionEn">{{ old('txtDescriptionEn',$manufacturer["description_en"]) }}</textarea>
+					<script type="text/javascript">
+						CKEDITOR.replace('txtDescriptionEn', { height: '400px' });
+					</script>
+				</div>
+			</div>
+		</div>
+	</div>
+	@endif
+
 	@include ('backend.blocks.button_bottom',['exit' => route('admin.manufacturer')])
 </form>
 @endsection

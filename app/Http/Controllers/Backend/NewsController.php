@@ -85,6 +85,18 @@ class NewsController extends Controller
         $news->meta_description_tag = $request->txtMetaDescription;
         $news->user_id              = Auth::user()->id;
         $news->created_at           = new DateTime();
+
+        if (env('APP_LANG')) {
+            $news->title_en                = $request->txtTitleEn;
+            $news->intro_en                = $request->txtIntroEn;
+            $news->content_en              = $request->txtContentEn;
+            $news->foot_en                 = $request->txtFootEn;
+            $news->slug_en                 = $request->txtSlugEn;
+            $news->title_tag_en            = $request->txtMetaTitleEn;
+            $news->meta_keywords_tag_en    = $request->txtMetaKeywordsEn;
+            $news->meta_description_tag_en = $request->txtMetaDescriptionEn;
+        }
+
         $check                      = $news->save();
 
         foreach ($request->chkCategory as $category) {
@@ -260,6 +272,18 @@ class NewsController extends Controller
         $news->meta_description_tag = $request->txtMetaDescription;
         $news->user_id              = Auth::user()->id;
         $news->updated_at           = new DateTime();
+
+        if (env('APP_LANG')) {
+            $news->title_en                = $request->txtTitleEn;
+            $news->intro_en                = $request->txtIntroEn;
+            $news->content_en              = $request->txtContentEn;
+            $news->foot_en                 = $request->txtFootEn;
+            $news->slug_en                 = $request->txtSlugEn;
+            $news->title_tag_en            = $request->txtMetaTitleEn;
+            $news->meta_keywords_tag_en    = $request->txtMetaKeywordsEn;
+            $news->meta_description_tag_en = $request->txtMetaDescriptionEn;
+        }
+
         $done = $news->save();
 
         if ($done) {

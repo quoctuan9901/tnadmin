@@ -75,6 +75,16 @@ class PostController extends Controller
         $post->meta_description_tag = $request->txtMetaDescription;
         $post->user_id              = Auth::user()->id;
         $post->created_at           = new DateTime();
+
+        if (env('APP_LANG')) {
+            $post->title_en                = $request->txtTitleEn;
+            $post->content_en              = $request->txtContentEn;
+            $post->slug_en                 = $request->txtSlugEn;
+            $post->title_tag_en            = $request->txtMetaTitleEn;
+            $post->meta_keywords_tag_en    = $request->txtMetaKeywordsEn;
+            $post->meta_description_tag_en = $request->txtMetaDescriptionEn;
+        }
+
         $check                      = $post->save();
 
         if ($check) {
@@ -208,6 +218,16 @@ class PostController extends Controller
         $post->meta_description_tag = $request->txtMetaDescription;
         $post->user_id              = Auth::user()->id;
         $post->updated_at           = new DateTime();
+
+        if (env('APP_LANG')) {
+            $post->title_en                = $request->txtTitleEn;
+            $post->content_en              = $request->txtContentEn;
+            $post->slug_en                 = $request->txtSlugEn;
+            $post->title_tag_en            = $request->txtMetaTitleEn;
+            $post->meta_keywords_tag_en    = $request->txtMetaKeywordsEn;
+            $post->meta_description_tag_en = $request->txtMetaDescriptionEn;
+        }
+
         $check                      = $post->save();
 
         if ($check) {

@@ -113,7 +113,7 @@
 										@php $id_img = 100 @endphp
 										@foreach($images as $img)
 										<tr id="image-row{{ $id_img }}">
-									    	<td class="text-left"><a id="thumb-image{{ $id_img }}"data-toggle="image" class="img-thumbnail"><img class="upload-image" src="{{ $img["images"] }}" id="img-detail-{{ $id_img }}" width="100px" height="100px" /><input type="hidden" name="post_image[{{ $id_img }}][image]" value="{{ $img["images"] }}" id="input-image-{{ $id_img }}" /></td>
+											<td class="text-left"><a id="thumb-image{{ $id_img }}"data-toggle="image" class="img-thumbnail"><img class="upload-image" src="{{ $img["images"] }}" id="img-detail-{{ $id_img }}" width="100px" height="100px" /><input type="hidden" name="post_image[{{ $id_img }}][image]" value="{{ $img["images"] }}" id="input-image-{{ $id_img }}" /></a></td>
 									    	<td class="text-right"><input type="text" name="post_image[{{ $id_img }}][alt]" placeholder="Alt Image" class="form-control" value="{{ $img["alt"] }}" /></td>
 									    	<td class="text-right"><input type="text" name="post_image[{{ $id_img }}][sort_order]" placeholder="Sort Order" class="form-control" value="{{ $img["position"] }}" /></td>
 									    	<td class="text-left"><button type="button" onclick="$('#image-row{{ $id_img }}').remove();" data-toggle="tooltip" title="Remove" class="btn btn-danger"><i class="icon-close2"></i></button></td>
@@ -254,6 +254,62 @@
 			</div>
 		</div>
 	</div>
+
+	@if (env('APP_LANG'))
+	<div class="col-md-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h6 class="panel-title">Edit Product English</h6>
+				<div class="heading-elements">
+					<ul class="icons-list">
+						<li><a data-action="collapse"></a></li>
+						<li><a data-action="reload"></a></li>
+						<li><a data-action="close"></a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="control-label">Title <span class="text-danger">*</span></label>
+					<input type="text" id="name-slug-en" name="txtTitleEn" class="form-control" placeholder="Please Enter Product Title" value="{{ old('txtTitleEn',$product["title_en"]) }}" />
+				</div>
+				<div class="form-group">
+					<label class="control-label">Intro</label>
+					<textarea name="txtIntroEn">{{ old('txtIntroEn',$product["intro_en"]) }}</textarea>
+					<script type="text/javascript">
+						CKEDITOR.replace('txtIntroEn', { height: '200px' });
+					</script>
+				</div>
+				<div class="form-group">
+					<label class="control-label">Content</label>
+					<textarea name="txtContentEn">{{ old('txtContentEn',$product["content_en"]) }}</textarea>
+					<script type="text/javascript">
+						CKEDITOR.replace('txtContentEn', { height: '400px' });
+					</script>
+				</div>
+				<div class="form-group">
+					<label class="control-label">Slug URL</label>
+					<input type="text" id="txtSlugEn" name="txtSlugEn" class="form-control" placeholder="Please Enter Slug URL" value="{{ old('txtSlugEn',$product["slug_en"]) }}" />
+				</div>
+				<div class="form-group" style="margin-bottom: 50px">
+					<label class="control-label">Title Tag (Ex : Primary Keyword - Secondary Keyword)</label>
+					<input type="text" id="txtMetaTitleEn" name="txtMetaTitleEn" class="form-control col-lg-6 maxlength-textarea" maxlength="70" placeholder="Please Enter Primary Keyword - Secondary Keyword (SEO)" value="{{ old('txtMetaTitleEn',$product["title_tag_en"]) }}" />
+				</div>
+				<div class="form-group">
+					<label class="control-label">Meta Keywords</label>
+					<input type="text" name="txtMetaKeywordsEn" class="tags-input" placeholder="Please Enter Meta Keywords Tag (SEO)" value="{{ old('txtMetaKeywordsEn',$product["meta_keywords_tag_en"]) }}" />
+					<span class="help-block">Keywords not more that 10 words</span>
+				</div>
+				<div class="form-group">
+					<label class="control-label">Meta Description</label>
+					<textarea rows="3" name="txtMetaDescriptionEn" cols="3" maxlength="160" class="form-control maxlength-textarea" placeholder="Please Enter Meta Description Tag (SEO)">{{ old('txtMetaDescriptionEn',$product["meta_description_tag_en"]) }}</textarea>
+				</div>
+			</div>
+		</div>
+	</div>
+	@endif
+
 	@include ('backend.blocks.button_bottom',['exit' => route('admin.product')])
 </form>
 @endsection
