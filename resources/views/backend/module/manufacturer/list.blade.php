@@ -33,7 +33,7 @@
 				@foreach ($manufacturer as $item)
 				<tr>
 					<td>{{ $loop->iteration }}</td>
-					<td><a href="{{ $item["website"] }}" target="_blank">{{ $item["name"] }}</a></td>
+					<td><a href="{{ route('admin.manufacturer.edit',['id' => $item["id"]]) }}" target="_blank">{{ $item["name"] }}</a></td>
 					<td><a href="mailto:{{ $item["email"] }}">{{ $item["email"] }}</a></td>
 					<td>{{ $item["phone"] }}</td>
 					<td>{{ \Carbon\Carbon::createFromTimeStamp(strtotime($item["updated_at"]))->diffForHumans() }}</td>

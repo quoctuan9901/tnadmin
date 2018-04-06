@@ -240,7 +240,7 @@
 			<div class="panel-body">
 				<div class="form-group">
 					<label class="control-label">Title <span class="text-danger">*</span></label>
-					<input type="text" id="name-slug-en" name="txtTitleEn" class="form-control" placeholder="Please Enter News Title" value="{{ old('txtTitleEn',$news["txtTitleEn"]) }}" />
+					<input type="text" id="name-slug-en" name="txtTitleEn" class="form-control" placeholder="Please Enter News Title" value="{{ old('txtTitleEn',$news["title_en"]) }}" />
 				</div>
 				<div class="form-group">
 					<label class="control-label">Intro</label>

@@ -216,7 +216,7 @@
 	<hr />
 
 	@if (env('APP_LANG'))
-	<div class="col-md-8">
+	<div class="col-md-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h6 class="panel-title">Add News English</h6>

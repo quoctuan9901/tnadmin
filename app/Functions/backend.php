@@ -90,7 +90,7 @@ function recursionTableAttribute ($data,$parent = 0,$str = '') {
 		if ($parent_id == $parent) {
 			echo'
 			<tr>
-				<td>'.$str.' <a href="'.route('admin.category.edit',['id' => $id]).'">'.$name.'</a></td>
+				<td>'.$str.' <a href="'.route('admin.attribute.edit',['id' => $id]).'">'.$name.'</a></td>
 				<td>'.$time.'</td>
 				<td><input type="checkbox" name="chkStatus" data-on-color="success" data-off-color="danger" data-on-text="On" data-off-text="Off" class="switch switch_list" data-table="attribute" data-col="status" data-id="'.$id.'" '.$status.' /></td>
 				<td class="text-center">

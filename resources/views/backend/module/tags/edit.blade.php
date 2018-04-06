@@ -76,7 +76,7 @@
 			<div class="panel-body">
 				<div class="form-group">
 					<label class="control-label">Tags <span class="text-danger">*</span></label>
-					<input type="text" id="name-slug-en" name="txtTagEn" class="form-control" placeholder="Please Enter Tags" value="{{ old('txtTagEn') }}" />
+					<input type="text" id="name-slug-en" name="txtTagEn" class="form-control" placeholder="Please Enter Tags" value="{{ old('txtTagEn',$tags["tags_en"]) }}" />
 				</div>
 				<div class="form-group">
 					<label class="control-label">Description</label>
